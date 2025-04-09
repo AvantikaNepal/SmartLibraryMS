@@ -56,9 +56,7 @@ class Library:
            # (which is the value in the dictionary), we can simply use .values() to extract the values directly from the dictionary.
            for value1 in self.book_list.values():
             value1.display_info()
-# L1 = Library({},{})
-# L1.add_book()
-# L1.display_all_books()
+                
 L1 = Library({},{})
 while True:
     print("Actions that can be performed:")
