@@ -39,7 +39,6 @@ class Library:
         self.book_list[key_isbn] = new_book
         print("Books added successfully!")
 
-
     def remove_book(self):
         return ''
     def register_user(self):
@@ -57,7 +56,23 @@ class Library:
            # (which is the value in the dictionary), we can simply use .values() to extract the values directly from the dictionary.
            for value1 in self.book_list.values():
             value1.display_info()
+# L1 = Library({},{})
+# L1.add_book()
+# L1.display_all_books()
 L1 = Library({},{})
-L1.add_book()
-L1.display_all_books()
+while True:
+    print("Actions that can be performed:")
+    print("\n1. Add Book")
+    print("\n2. Display Book")
+    print("\n3. Exit")
+    num_choice = int(input("\n Please input the action you want to perform:"))
+    match num_choice:
+        case 1:
+            L1.add_book()
+        case 2:
+            L1.display_all_books()
+        case 3:
+            exit()
+        case _:
+            print("Invalid choice. Please select a valid option.")
 
