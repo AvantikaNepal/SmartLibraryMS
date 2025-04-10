@@ -40,7 +40,10 @@ class Library:
         print("Books added successfully!")
 
     def remove_book(self):
-        return ''
+        key_isbn = int(input("Enter the isbn of the book to remove:"))
+        del self.book_list[key_isbn]
+        print("Book deleted successfully!")
+
     def register_user(self):
         return ''
     def issue_book(self):
@@ -62,7 +65,8 @@ while True:
     print("Actions that can be performed:")
     print("\n1. Add Book")
     print("\n2. Display Book")
-    print("\n3. Exit")
+    print("\n3. Remove Book")
+    print("\n4. Exit")
     num_choice = int(input("\n Please input the action you want to perform:"))
     match num_choice:
         case 1:
@@ -70,6 +74,8 @@ while True:
         case 2:
             L1.display_all_books()
         case 3:
+            L1.remove_book()
+        case 4:
             exit()
         case _:
             print("Invalid choice. Please select a valid option.")
