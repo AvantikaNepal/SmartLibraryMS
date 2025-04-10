@@ -31,18 +31,32 @@ class Library:
         self.user_list = user_list
 
     def add_book(self):
-        key_isbn = int(input("Enter the ISBN of the book:"))
-        book_name = input("Enter the book name:")
-        book_author = input("Enter the book author:")
-        copies = int(input("Enter the total copies of the book:"))
-        new_book = Book(book_name, key_isbn, book_author, copies)
-        self.book_list[key_isbn] = new_book
-        print("Books added successfully!")
+        try:
+            key_isbn = int(input("Enter the ISBN of the book:"))
+            book_name = input("Enter the book name:")
+            book_author = input("Enter the book author:")
+            copies = int(input("Enter the total copies of the book:"))
+            if key_isbn in self.book_list:
+                print("Book already exists")
+            else:
+                new_book = Book(book_name, key_isbn, book_author, copies)
+                self.book_list[key_isbn] = new_book
+                print("Books added successfully!")
+        except ValueError:
+            print("Wrong value entered in a field")
+
 
     def remove_book(self):
-        key_isbn = int(input("Enter the isbn of the book to remove:"))
-        del self.book_list[key_isbn]
-        print("Book deleted successfully!")
+        try:
+            key_isbn = int(input("Enter the isbn of the book to remove:"))
+            if key_isbn in self.book_list:
+                del self.book_list[key_isbn]
+                print("Book deleted successfully!")
+            else:
+                print("Book with this key does not exist!")
+        except ValueError:
+            print("Invalid input in the isbn number")
+
 
     def register_user(self):
         return ''
