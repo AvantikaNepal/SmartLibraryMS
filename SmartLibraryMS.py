@@ -78,8 +78,9 @@ class Library:
         try:
             user_id = int(input("Please enter thr user id to issue the book: "))
             bookisbn = int(input("Please enter the book isbn to issue to the user"))
-            self.user_list[user_id][2].append(self.book_list[bookisbn][0])
-            print("Book: "+ self.book_list[bookisbn][0]+ "to user: " + str(user_id))
+            new_available_copy = self.book_list[bookisbn].available_copies - 1
+            self.book_list[bookisbn].available_copies=new_available_copy
+            print("Book: "+ self.book_list[bookisbn].title+ " issued to user: " + str(user_id))
         except ValueError:
             print("please input a valid value")
         except KeyError:
@@ -117,7 +118,8 @@ while True:
     print("\n3. Remove Book")
     print("\n4. Issue Book")
     print("\n5. Add user")
-    print("\n6. Exit")
+    print("\n6. Display Users")
+    print("\n7. Exit")
     num_choice = int(input("\n Please input the action you want to perform:"))
     match num_choice:
         case 1:
@@ -131,6 +133,8 @@ while True:
         case 5:
             L1.register_user()
         case 6:
+            L1.display_all_users()
+        case 7:
             exit()
         case _:
             print("Invalid choice. Please select a valid option.")
