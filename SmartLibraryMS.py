@@ -20,7 +20,7 @@ class User:
         return ''
 
     def user_info(self):
-        return ''
+        print("User name: " + self.name + "User ID: " + self.user_id + "Book borrowed: ")
 
     def return_book(self):
         return ''
@@ -59,11 +59,39 @@ class Library:
 
 
     def register_user(self):
-        return ''
+        try:
+            uname = input("Please enter the user name: ")
+            uid = int(input("Please enter the user id: "))
+            bow_books = []
+            if uid in self.user_list:
+                print("User already exists!")
+            else:
+                new_user = User(uname, id, bow_books)
+                self.user_list[uid] = new_user
+                print("User added successfully!")
+        except ValueError:
+            print("Please enter a valid input!")
+
+
+
     def issue_book(self):
-        return ''
+        try:
+            user_id = int(input("Please enter thr user id to issue the book: "))
+            bookisbn = int(input("Please enter the book isbn to issue to the user"))
+            self.user_list[user_id][2].append(self.book_list[bookisbn][0])
+            print("Book: "+ self.book_list[bookisbn][0]+ "to user: " + str(user_id))
+        except ValueError:
+            print("please input a valid value")
+        except KeyError:
+            print("User id or ISBN not found!")
+
+
+    # book should be issued and the available copies must decrease if no copies left the book should be removed form the display method
     def return_book(self):
         return ''
+    # available copies must incread in the available books and if it was zero must be one and come back to the list
+
+
     def display_all_books(self):
        if not self.book_list:
            print("No book in the library!")
@@ -73,10 +101,17 @@ class Library:
            # (which is the value in the dictionary), we can simply use .values() to extract the values directly from the dictionary.
            for value1 in self.book_list.values():
             value1.display_info()
+
+    def display_all_users(self):
+        if not self.user_list:
+            print("No users")
+        else:
+            for value1 in self.user_list.items():
+                value1.user_info()
                 
 L1 = Library({},{})
 while True:
-    print("Actions that can be performed:")
+    print("\nActions that can be performed:")
     print("\n1. Add Book")
     print("\n2. Display Book")
     print("\n3. Remove Book")
