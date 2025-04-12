@@ -115,7 +115,9 @@ while True:
     print("\n1. Add Book")
     print("\n2. Display Book")
     print("\n3. Remove Book")
-    print("\n4. Exit")
+    print("\n4. Issue Book")
+    print("\n5. Add user")
+    print("\n6. Exit")
     num_choice = int(input("\n Please input the action you want to perform:"))
     match num_choice:
         case 1:
@@ -125,6 +127,10 @@ while True:
         case 3:
             L1.remove_book()
         case 4:
+            L1.issue_book()
+        case 5:
+            L1.register_user()
+        case 6:
             exit()
         case _:
             print("Invalid choice. Please select a valid option.")
