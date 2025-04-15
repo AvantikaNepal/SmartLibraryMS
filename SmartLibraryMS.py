@@ -20,7 +20,7 @@ class User:
         return ''
 
     def user_info(self):
-        print("User name: " + self.name + "User ID: " + str(self.user_id) + "Book borrowed: " )
+        print("User name: " + self.name + "User ID: " + str(self.user_id) + "Book borrowed: " + str(self.borrowed_books) )
 
     def return_book(self):
         return ''
@@ -82,6 +82,7 @@ class Library:
                 new_available_copy = self.book_list[bookisbn].available_copies - 1
                 self.book_list[bookisbn].available_copies=new_available_copy
                 print("Book: " + self.book_list[bookisbn].title + " issued to user: " + str(user_id))
+                self.user_list[user_id].borrowed_books.append(self.book_list[bookisbn].title)
             else:
                 del self.book_list[bookisbn]
                 print("Sorry the book is not available for rent")
