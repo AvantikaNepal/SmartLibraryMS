@@ -20,7 +20,7 @@ class User:
         return ''
 
     def user_info(self):
-        print("User name: " + self.name + "User ID: " + self.user_id + "Book borrowed: ")
+        print("User name: " + self.name + "User ID: " + str(self.user_id) + "Book borrowed: " )
 
     def return_book(self):
         return ''
@@ -66,7 +66,7 @@ class Library:
             if uid in self.user_list:
                 print("User already exists!")
             else:
-                new_user = User(uname, id, bow_books)
+                new_user = User(uname, uid, bow_books)
                 self.user_list[uid] = new_user
                 print("User added successfully!")
         except ValueError:
@@ -78,19 +78,25 @@ class Library:
         try:
             user_id = int(input("Please enter thr user id to issue the book: "))
             bookisbn = int(input("Please enter the book isbn to issue to the user"))
-            new_available_copy = self.book_list[bookisbn].available_copies - 1
-            self.book_list[bookisbn].available_copies=new_available_copy
-            print("Book: "+ self.book_list[bookisbn].title+ " issued to user: " + str(user_id))
+            if self.book_list[bookisbn].available_copies > 0:
+                new_available_copy = self.book_list[bookisbn].available_copies - 1
+                self.book_list[bookisbn].available_copies=new_available_copy
+                print("Book: " + self.book_list[bookisbn].title + " issued to user: " + str(user_id))
+            else:
+                del self.book_list[bookisbn]
+                print("Sorry the book is not available for rent")
+
         except ValueError:
-            print("please input a valid value")
+            print("Please input a valid value")
         except KeyError:
             print("User id or ISBN not found!")
-
-
-    # book should be issued and the available copies must decrease if no copies left the book should be removed form the display method
+    # Things remaining  to do:
+    # check if the book is available or not for issue,
+    # if not say book not available. If the last book is being issued it must be deleted form the book list .
+    # All the issued books title must be added in the user borrowed book list
     def return_book(self):
         return ''
-    # available copies must incread in the available books and if it was zero must be one and come back to the list
+    # available copies must increase in the available books and if it was zero must be one and come back to the list
 
 
     def display_all_books(self):
@@ -107,7 +113,7 @@ class Library:
         if not self.user_list:
             print("No users")
         else:
-            for value1 in self.user_list.items():
+            for value1 in self.user_list.values():
                 value1.user_info()
                 
 L1 = Library({},{})
