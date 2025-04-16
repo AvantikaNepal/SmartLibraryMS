@@ -16,8 +16,8 @@ class User:
         self.user_id = user_id
         self.borrowed_books = borrowed_books
 
-    def borrowed_book(self):
-        return ''
+    def borrowed_book(self, book_title):
+        self.borrowed_books.append(book_title)
 
     def user_info(self):
         print("User name: " + self.name + "User ID: " + str(self.user_id) + "Book borrowed: " + str(self.borrowed_books) )
@@ -78,23 +78,29 @@ class Library:
         try:
             user_id = int(input("Please enter thr user id to issue the book: "))
             bookisbn = int(input("Please enter the book isbn to issue to the user"))
-            if self.book_list[bookisbn].available_copies > 0:
-                new_available_copy = self.book_list[bookisbn].available_copies - 1
-                self.book_list[bookisbn].available_copies=new_available_copy
-                print("Book: " + self.book_list[bookisbn].title + " issued to user: " + str(user_id))
-                self.user_list[user_id].borrowed_books.append(self.book_list[bookisbn].title)
+            if self.book_list[bookisbn].title in self.user_list[user_id].borrowed_books:
+                print("This user has already borrowed this book! One user cannot borrow the same book multiple times.")
             else:
-                del self.book_list[bookisbn]
-                print("Sorry the book is not available for rent")
+                if self.book_list[bookisbn].available_copies > 0:
+                    new_available_copy = self.book_list[bookisbn].available_copies - 1
+                    self.book_list[bookisbn].available_copies=new_available_copy
+                    print("Book: " + self.book_list[bookisbn].title + " issued to user: " + str(user_id))
+                    self.user_list[user_id].borrowed_book(self.book_list[bookisbn].title)
+                    # self.user_list[user_id] is actually a user object, it can directly access all the functions in the user class
+                    # so let the user class handel updating the borrowed book list
+                else:
+                    del self.book_list[bookisbn]
+                    print("Sorry the book is not available for rent")
 
         except ValueError:
             print("Please input a valid value")
         except KeyError:
             print("User id or ISBN not found!")
     # Things remaining  to do:
-    # check if the book is available or not for issue,
-    # if not say book not available. If the last book is being issued it must be deleted form the book list .
-    # All the issued books title must be added in the user borrowed book list
+    # check if the book is available or not for issue, ->done
+    # if not say book not available. If the last book is being issued it must be deleted form the book list . -> done
+    # All the issued books title must be added in the user borrowed book list -> done
+    # one user can issue a particular book only once ->done
     def return_book(self):
         return ''
     # available copies must increase in the available books and if it was zero must be one and come back to the list
