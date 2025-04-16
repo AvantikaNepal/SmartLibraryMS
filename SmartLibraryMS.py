@@ -22,8 +22,9 @@ class User:
     def user_info(self):
         print("User name: " + self.name + "User ID: " + str(self.user_id) + "Book borrowed: " + str(self.borrowed_books) )
 
-    def return_book(self):
-        return ''
+    def return_book(self, book_title):
+       self.borrowed_books.remove(book_title)
+       print("Book returned successfully!")
 
 class Library:
     def __init__(self, book_list, user_list):
@@ -60,8 +61,8 @@ class Library:
 
     def register_user(self):
         try:
-            uname = input("Please enter the user name: ")
-            uid = int(input("Please enter the user id: "))
+            uname = input("Please enter the user name:")
+            uid = int(input("Please enter the user id:"))
             bow_books = []
             if uid in self.user_list:
                 print("User already exists!")
@@ -76,8 +77,8 @@ class Library:
 
     def issue_book(self):
         try:
-            user_id = int(input("Please enter thr user id to issue the book: "))
-            bookisbn = int(input("Please enter the book isbn to issue to the user"))
+            user_id = int(input("Please enter thr user id to issue the book:"))
+            bookisbn = int(input("Please enter the book isbn to issue to the user:"))
             if self.book_list[bookisbn].title in self.user_list[user_id].borrowed_books:
                 print("This user has already borrowed this book! One user cannot borrow the same book multiple times.")
             else:
@@ -89,9 +90,8 @@ class Library:
                     # self.user_list[user_id] is actually a user object, it can directly access all the functions in the user class
                     # so let the user class handel updating the borrowed book list
                 else:
-                    del self.book_list[bookisbn]
-                    print("Sorry the book is not available for rent")
-
+                    # del self.book_list[bookisbn]
+                    print("Sorry the book is not available to issue")
         except ValueError:
             print("Please input a valid value")
         except KeyError:
@@ -102,7 +102,15 @@ class Library:
     # All the issued books title must be added in the user borrowed book list -> done
     # one user can issue a particular book only once ->done
     def return_book(self):
-        return ''
+        try:
+            userid = int(input("User Id who is returning the book:"))
+            bookisbn = int(input("Please enter the isbn of the book being returned:"))
+            self.book_list[bookisbn].available_copies += 1
+            self.user_list[userid].return_book(self.book_list[bookisbn].title)
+        except ValueError:
+            print("Please make a valid input")
+        except KeyError:
+            print("User id or  ISBN does not exist!")
     # available copies must increase in the available books and if it was zero must be one and come back to the list
 
 
@@ -130,9 +138,10 @@ while True:
     print("\n2. Display Book")
     print("\n3. Remove Book")
     print("\n4. Issue Book")
-    print("\n5. Add user")
-    print("\n6. Display Users")
-    print("\n7. Exit")
+    print("\n5. Return Book")
+    print("\n6. Add user")
+    print("\n7. Display Users")
+    print("\n8. Exit")
     num_choice = int(input("\n Please input the action you want to perform:"))
     match num_choice:
         case 1:
@@ -144,10 +153,12 @@ while True:
         case 4:
             L1.issue_book()
         case 5:
-            L1.register_user()
+            L1.return_book()
         case 6:
-            L1.display_all_users()
+            L1.register_user()
         case 7:
+            L1.display_all_users()
+        case 8:
             exit()
         case _:
             print("Invalid choice. Please select a valid option.")
