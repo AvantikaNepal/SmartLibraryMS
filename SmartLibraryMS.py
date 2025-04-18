@@ -1,13 +1,51 @@
 class Book:
     def __init__(self, title, ISBN, author, available_copies):
-        self.title = title
-        self.ISBN = ISBN
-        self.author = author
-        self.available_copies = available_copies
+        self.set_title(title)
+        self.set_isbn(ISBN)
+        self.set_author(author)
+        self.set_availabel_copies(available_copies)
+# getter functions
+    def get_title(self):
+        return self.__title
+    def get_isdn(self):
+        return self.__ISBN
+    def get_author(self):
+        return self.__author
+    def get_availabel_copies(self):
+        return self.__available_copies
+
+# setter functions
+    def set_title(self, title):
+        title = title.strip()  # Remove leading/trailing spaces
+        if not title.isalpha():  # Check if it contains only alphabetic characters
+            raise ValueError("Title should only contain alphabetic characters!")
+        elif title == "":
+            raise ValueError("Title cannot be empty!")
+        else:
+            self.__title = title
+
+    def set_isbn(self, isbn):
+        if isbn < 0:
+            raise ValueError("ISBN cannot be negetive")
+        else:
+            self.__ISBN = isbn
+    def set_author(self, author):
+        author = author.strip()  # Remove leading/trailing spaces
+        if not author.isalpha():  # Check if it contains only alphabetic characters
+            raise ValueError("Author name should only contain alphabetic characters!")
+        elif author == "":
+            raise ValueError("Author cannot be empty!")
+        else:
+            self.__author = author
+    def set_availabel_copies(self, available_copies):
+        if available_copies < 0:
+            raise ValueError("Available books cannot be negetive!")
+        else:
+            self.__available_copies = available_copies
 
 
     def display_info(self):
-        print('The book "'   + self.title + '" with the ISBN: ' + str(self.ISBN) + ' with the author: ' + self.author + ' has ' + str(self.available_copies) + ' available copies  left!')
+        print('The book "'   + self.__title + '" with the ISBN: ' + str(self.__ISBN) + ' with the author: ' + self.__author + ' has ' + str(self.__available_copies) + ' available copies  left!')
 
 
 class User:
@@ -20,7 +58,7 @@ class User:
         self.borrowed_books.append(book_title)
 
     def user_info(self):
-        print("User name: " + self.name + "User ID: " + str(self.user_id) + "Book borrowed: " + str(self.borrowed_books) )
+        print("User name: " + self.name + " User ID: " + str(self.user_id) + " Book borrowed: " + str(self.borrowed_books) )
 
     def return_book(self, book_title):
        self.borrowed_books.remove(book_title)
@@ -30,6 +68,10 @@ class Library:
     def __init__(self, book_list, user_list):
         self.book_list = book_list
         self.user_list = user_list
+
+
+
+
 
     def add_book(self):
         try:
@@ -43,8 +85,8 @@ class Library:
                 new_book = Book(book_name, key_isbn, book_author, copies)
                 self.book_list[key_isbn] = new_book
                 print("Books added successfully!")
-        except ValueError:
-            print("Wrong value entered in a field")
+        except ValueError as e:
+            print(f"Error: {e}")
 
 
     def remove_book(self):
@@ -90,7 +132,6 @@ class Library:
                     # self.user_list[user_id] is actually a user object, it can directly access all the functions in the user class
                     # so let the user class handel updating the borrowed book list
                 else:
-                    # del self.book_list[bookisbn]
                     print("Sorry the book is not available to issue")
         except ValueError:
             print("Please input a valid value")
