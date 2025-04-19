@@ -7,6 +7,12 @@ class Library:
         self.book_list = book_list
         self.user_list = user_list
 
+    def save_books_to_file(self, filename="books.txt"):
+        with open(filename, "w") as file:
+            for isbn, book in self.book_list.items():
+                line = f"{isbn},{book.get_title()},{book.get_author()},{book.get_available_copies()}\n"
+                file.write(line)
+
     def add_book(self):
         try:
             key_isbn = int(input("Enter the ISBN of the book:"))
@@ -18,6 +24,7 @@ class Library:
             else:
                 new_book = Book(book_name, key_isbn, book_author, copies)
                 self.book_list[key_isbn] = new_book
+                self.save_books_to_file()
                 print("Books added successfully!")
         except ValueError as e:
             print(f"Error: {e}")
