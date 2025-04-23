@@ -13,6 +13,18 @@ class Library:
                 line = f"{isbn},{book.get_title()},{book.get_author()},{book.get_available_copies()}\n"
                 file.write(line)
 
+    def load_book_from_file(self, filename= "books.txt"):
+        try:
+            with open(filename, 'r') as file:
+                for line in file:
+                    isbn, title, author, copies = line.strip().split(",")
+                    self.book_list[int(isbn)] = Book(title, isbn, author, int(copies))
+                    for value1 in self.book_list.values():
+                        value1.display_info()
+
+        except FileNotFoundError:
+            print("Oops book file not found!")
+
     def add_book(self):
         try:
             key_isbn = int(input("Enter the ISBN of the book:"))
@@ -101,8 +113,9 @@ class Library:
            # We store the books as key-value pairs in the dictionary, with the ISBN as the key and the Book object as the value.
            # While we can use .items() to access both the key and the value, since our goal is to display the information of the Book object
            # (which is the value in the dictionary), we can simply use .values() to extract the values directly from the dictionary.
-           for value1 in self.book_list.values():
-            value1.display_info()
+           self.load_book_from_file()
+           # for value1 in self.book_list.values():
+           #  value1.display_info()
 
     def display_all_users(self):
         if not self.user_list:
