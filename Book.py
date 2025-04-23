@@ -7,12 +7,12 @@ class Book:
 # getter functions
     def get_title(self):
         return self.__title
-    def get_isdn(self):
-        return self.__ISBN
+    def get_isbn(self):
+        return str(self.__ISBN)
     def get_author(self):
         return self.__author
     def get_available_copies(self):
-        return self.__available_copies
+        return str(self.__available_copies)
 
 # setter functions
     def set_title(self, title):
@@ -25,7 +25,7 @@ class Book:
             self.__title = title
 
     def set_isbn(self, isbn):
-        if isbn < 0:
+        if int(isbn) < 0:
             raise ValueError("ISBN cannot be negetive")
         else:
             self.__ISBN = isbn
@@ -45,4 +45,4 @@ class Book:
 
 
     def display_info(self):
-        print('The book "'   + self.__title + '" with the ISBN: ' + str(self.__ISBN) + ' with the author: ' + self.__author + ' has ' + str(self.__available_copies) + ' available copies  left!')
+        print('The book "'   + self.get_title() + '" with the ISBN: ' + self.get_isbn() + ' with the author: ' + self.get_author() + ' has ' + self.get_available_copies() + ' available copies  left!')
